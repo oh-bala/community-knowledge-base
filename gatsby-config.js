@@ -26,6 +26,9 @@ module.exports = {
                   contentful_id
                   title
                   slug
+                  body {
+                    json
+                  }
                   category: kbAppCategory {
                     slug
                   }
@@ -35,12 +38,13 @@ module.exports = {
           `,
 
         ref: 'id',
-        index: ['name'],
+        index: ['name', 'body'],
         store: ['name', 'path'],
         normalizer: ({ data }) =>
           data.articles.nodes.map((node) => ({
             id: node.contentful_id,
             name: node.title,
+            body: node.body,
             path: `/${node.category.slug}/${node.slug}/`,
           })),
       },
